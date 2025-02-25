@@ -66,14 +66,20 @@ export function getNames(questions: Question[]): string[] {
  * Consumes an array of questions and returns the sum total of all their points added together.
  */
 export function sumPoints(questions: Question[]): number {
-    return 0;
+    const totalPoints = questions.reduce(
+        (current: number, { points }: Question): number => (current += points),
+        0,
+    );
+    return totalPoints;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    const publishedQuestions = getPublishedQuestions(questions);
+
+    return sumPoints(publishedQuestions);
 }
 
 /***
@@ -93,8 +99,19 @@ id,name,options,points,published
 ` *
  * Check the unit tests for more examples!
  */
+
+function CSV(question: Question): string {
+    const { id, name, options, points, published } = question;
+
+    return `${id},${name},${options.length},${points},${published}`;
+}
 export function toCSV(questions: Question[]): string {
-    return "";
+    const CSVheading = `id,name,options,points,published`;
+
+    const CSVquestions = questions.map(
+        (question: Question): string => "\n" + CSV(question),
+    );
+    return CSVheading + CSVquestions.join("");
 }
 
 /**
@@ -103,7 +120,15 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    const answers: Answer[] = questions.map(
+        ({ id }: Question): Answer => ({
+            questionId: id,
+            text: "",
+            submitted: false,
+            correct: false,
+        }),
+    );
+    return answers;
 }
 
 /***
@@ -111,7 +136,10 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    const newQuestions = questions.map(
+        (question: Question): Question => ({ ...question, published: true }),
+    );
+    return newQuestions;
 }
 
 /***
