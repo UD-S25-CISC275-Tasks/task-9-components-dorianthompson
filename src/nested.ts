@@ -6,7 +6,10 @@ import { Question, QuestionType } from "./interfaces/question";
  * that are `published`.
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    return [];
+    const published = questions.filter(
+        (question: Question): boolean => question.published,
+    );
+    return published;
 }
 
 /**
@@ -15,7 +18,14 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    const nonempty = questions.filter(
+        ({ body, expected, options }: Question): boolean =>
+            body === "" && expected === "" && options.length !== 0,
+    );
+
+    //console.log(nonempty);
+
+    return nonempty;
 }
 
 /***
@@ -24,9 +34,12 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
  */
 export function findQuestion(
     questions: Question[],
-    id: number
+    id: number,
 ): Question | null {
-    return null;
+    const matched = questions.find(
+        (question: Question): boolean => question.id === id,
+    );
+    return matched ? matched : null;
 }
 
 /**
@@ -34,7 +47,10 @@ export function findQuestion(
  * with the given `id`.
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    const matched = questions.filter(
+        (question: Question): boolean => question.id !== id,
+    );
+    return matched;
 }
 
 /***
@@ -42,7 +58,8 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    const names = questions.map(({ name }: Question): string => name);
+    return names;
 }
 
 /***
@@ -114,7 +131,7 @@ export function addNewQuestion(
     questions: Question[],
     id: number,
     name: string,
-    type: QuestionType
+    type: QuestionType,
 ): Question[] {
     return [];
 }
@@ -127,7 +144,7 @@ export function addNewQuestion(
 export function renameQuestionById(
     questions: Question[],
     targetId: number,
-    newName: string
+    newName: string,
 ): Question[] {
     return [];
 }
@@ -142,7 +159,7 @@ export function renameQuestionById(
 export function changeQuestionTypeById(
     questions: Question[],
     targetId: number,
-    newQuestionType: QuestionType
+    newQuestionType: QuestionType,
 ): Question[] {
     return [];
 }
@@ -161,7 +178,7 @@ export function editOption(
     questions: Question[],
     targetId: number,
     targetOptionIndex: number,
-    newOption: string
+    newOption: string,
 ): Question[] {
     return [];
 }
@@ -175,7 +192,7 @@ export function editOption(
 export function duplicateQuestionInArray(
     questions: Question[],
     targetId: number,
-    newId: number
+    newId: number,
 ): Question[] {
     return [];
 }
