@@ -1,6 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion, duplicateQuestion } from "./objects";
+import { makeBlankQuestion, duplicateQuestion, addOption } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -19,12 +19,21 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    const nonempty = questions.filter(
-        ({ body, expected, options }: Question): boolean =>
-            body === "" && expected === "" && options.length !== 0,
+    const deepCopy = questions.map((question: Question) => ({
+        ...question,
+        options: [...question.options],
+    }));
+    const nonempty = deepCopy.filter(
+        ({ body, expected, options }: Question) => {
+            return (
+                body.length !== 0 ||
+                expected.length !== 0 ||
+                options.length !== 0
+            );
+        },
     );
 
-    //console.log(nonempty);
+    console.log(nonempty);
 
     return nonempty;
 }
@@ -232,7 +241,30 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string,
 ): Question[] {
-    return [];
+    const targetIdx = questions.findIndex(
+        ({ id }: Question): boolean => id === targetId,
+    );
+
+    const questionsCopy = [...questions];
+
+    if (targetOptionIndex === -1) {
+        questionsCopy[targetIdx] = {
+            ...questionsCopy[targetIdx],
+            options: [...questionsCopy[targetIdx].options, newOption],
+        };
+    } else {
+        questionsCopy[targetIdx] = {
+            ...questionsCopy[targetIdx],
+            options: [...questionsCopy[targetIdx].options],
+        };
+        questionsCopy[targetIdx].options.splice(
+            targetOptionIndex,
+            1,
+            newOption,
+        );
+    }
+
+    return questionsCopy;
 }
 
 /***
