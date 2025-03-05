@@ -13,7 +13,9 @@ export function ChangeType(): React.JSX.Element {
     };
     return (
         <div>
-            <Button onClick={handleClick}>Change Type</Button>
+            <Button value="Change Type" onClick={handleClick}>
+                Change Type
+            </Button>
             {QType === "multiple_choice_question"
                 ? "Multiple Choice"
                 : "Short Answer"}
