@@ -15,7 +15,7 @@ import {
     renameQuestionById,
     changeQuestionTypeById,
     editOption,
-    duplicateQuestionInArray,
+    duplicateQuestionInArray
 } from "./nested";
 import testQuestionData from "./data/questions.json";
 import backupQuestionData from "./data/questions.json";
