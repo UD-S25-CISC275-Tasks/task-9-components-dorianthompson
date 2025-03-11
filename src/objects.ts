@@ -8,7 +8,7 @@ import { Question, QuestionType } from "./interfaces/question";
 export function makeBlankQuestion(
     id: number,
     name: string,
-    type: QuestionType,
+    type: QuestionType
 ): Question {
     return {
         id,
@@ -18,7 +18,7 @@ export function makeBlankQuestion(
         expected: "",
         options: [],
         points: 1,
-        published: false,
+        published: false
     };
 }
 
@@ -45,7 +45,7 @@ export function isValid(question: Question, answer: string): boolean {
     if (question.type === "multiple_choice_question") {
         return (
             question.options.findIndex(
-                (option: string) => option === answer,
+                (option: string) => option === answer
             ) !== -1
         );
     }
@@ -144,7 +144,7 @@ export function mergeQuestion(
     id: number,
     name: string,
     contentQuestion: Question,
-    { points }: { points: number },
+    { points }: { points: number }
 ): Question {
     return { ...contentQuestion, points, id, name, published: false };
 }
