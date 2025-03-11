@@ -21,13 +21,13 @@ export function StartAttempt(): React.JSX.Element {
                 type="button"
                 value="Start Quiz"
                 onClick={handleStartQuiz}
-                disabled={inProgress === true || attempts === 0}
+                disabled={inProgress || !attempts}
             >
                 Start Quiz
             </Button>
 
             <Button
-                disabled={inProgress === true}
+                disabled={inProgress}
                 type="button"
                 value="Mulligan"
                 onClick={handleMulligan}
@@ -39,7 +39,7 @@ export function StartAttempt(): React.JSX.Element {
                 type="button"
                 value="Stop Quiz"
                 onClick={handleStopQuiz}
-                disabled={inProgress === false}
+                disabled={!inProgress}
             >
                 Stop Quiz
             </Button>
